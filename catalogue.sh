@@ -25,7 +25,7 @@ npm install &>>/tmp/roboshop.log
 
 echo -e "\e[33m setup catalogue service \e[0m"
 # cp service
-cp catalogue.service /etc/systemd/system/catalogue.service  &>>/tmp/roboshop.log
+cp /project/Roboshopproject/catalogue.service /etc/systemd/system/catalogue.service  &>>/tmp/roboshop.log
 
 echo -e "\e[33m  start catalogue service \e[0m"
 systemctl daemon-reload  &>>/tmp/roboshop.log
@@ -35,7 +35,7 @@ systemctl restart catalogue  &>>/tmp/roboshop.log
 
 echo -e "\e[33m copy mongodb repo file \e[0m"
 #copy mpng.rep
-cp mongo.repo /etc/yum.repos.d/mongo.repo  &>>/tmp/roboshop.log
+cp /project/Roboshopproject/mongo.repo /etc/yum.repos.d/mongo.repo  &>>/tmp/roboshop.log
 
 echo -e "\e[33m install mongodb \e[0m"
 yum install mongodb-org-shell -y   &>>/tmp/roboshop.log

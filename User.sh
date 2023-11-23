@@ -30,7 +30,7 @@ npm install
 
 #copy service file
 
-cp /project/Roboshopproject/User.service /etc/systemd/system/User.service
+cp /project/Roboshopproject/User.service /etc/yum.repos.d/User.service
 systemctl daemon-reload
 
 echo -e "\e[33m Start user \e[0m"

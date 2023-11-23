@@ -1,49 +1,44 @@
 
+
 echo -e "\e[33m  configuration node js \e[0m"
 curl -sL https://rpm.nodesource.com/setup_lts.x | bash  &>>/tmp/roboshop.log
 
+echo -e "\e[33m  install nodejs \e[0m"
+yum install nodejs -y   &>>/tmp/roboshop.log
 
-
-echo -e "\e[33m Install nodejs \e[0m"
-yum install nodejs -y
-
-echo -e "\e[33m Add user \e[0m"
-useradd roboshop
+echo -e "\e[33m add Application user \e[0m"
+useradd roboshop   &>>/tmp/roboshop.log
 
 rm -rf /app
-echo -e "\e[33m create a folder \e[0m"
 mkdir /app 
 
-echo -e "\e[33m Download Application content \e[0m"
-curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user.zip 
+echo -e "\e[33m Download application director \e[0m"
+
+curl -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user.zip  &>>/tmp/roboshop.log
+
+echo -e "\e[33m Extract application content \e[0m"
+cd /app   &>>/tmp/roboshop.log
+unzip /tmp/user.zip  &>>/tmp/roboshop.log
 cd /app 
 
-echo -e "\e[33m Unzip the folder \e[0m"
-unzip /tmp/user.zip
+echo -e "\e[33m Install nodejs sependencies \e[0m"
+npm install &>>/tmp/roboshop.log
 
-cd /app 
-echo -e "\e[33m install dependencie \e[0m"
-npm install 
+echo -e "\e[33m setup user service \e[0m"
+# cp service
+cp /project/Roboshopproject/user.service.service /etc/systemd/system/user.service  &>>/tmp/roboshop.log
 
-#copy service file
+echo -e "\e[33m  start user service \e[0m"
+systemctl daemon-reload  &>>/tmp/roboshop.log
 
-cp /project/Roboshopproject/User.service /etc/yum.repos.d/User.service
+systemctl enable user &>>/tmp/roboshop.log
+systemctl restart user  &>>/tmp/roboshop.log
 
-systemctl daemon-reload
+echo -e "\e[33m copy mongodb repo file \e[0m"
+#copy mpng.rep
+cp /project/Roboshopproject/mongo.repo /etc/yum.repos.d/mongo.repo  &>>/tmp/roboshop.log
 
-echo -e "\e[33m Start user \e[0m"
-systemctl enable user 
-systemctl restart user
+echo -e "\e[33m install mongodb \e[0m"
+yum install mongodb-org-shell -y   &>>/tmp/roboshop.log
 
-echo -e "\e[33m Copy mongo rep file \e[0m"
-#copy mongo repo file
-cp /project/Roboshopproject/mongo.repo /etc/yum.repos.d/mongo.repo
-
-echo -e "\e[33m Install mondo \e[0m"
-yum install mongodb-org-shell -y
-
-
-echo -e "\e[33m load schema \e[0m"
-mongo --host mongodb-dev.devopsb72.store </app/schema/user.js
-
-
+mongo --host mongodb-dev.devopsb72.store </app/schema/user.js  &>>/tmp/roboshop.log

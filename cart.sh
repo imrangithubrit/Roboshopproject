@@ -1,7 +1,5 @@
 component=cart
-color="\e[35m"
-nocolor="\e[0m"
-log_file="/tmp/roboshop.log"
+
 app_path="/app"
 
 
@@ -19,17 +17,17 @@ echo -e "${color} add user ${nocolor}"
 useradd roboshop &>>${log_file}
 
 echo -e "${color} create directory ${nocolor}"
-mkdir /app  &>>${log_file}
+mkdir ${app_path}  &>>${log_file}
 
 echo -e "${color} Download application content ${nocolor}"
 curl -L -o /tmp/$component.zip https://roboshop-artifacts.s3.amazonaws.com/$component.zip &>>${log_file} 
-cd /app 
+cd ${app_path} 
 
 echo -e "${color} unzip the folder ${nocolor}"
 unzip /tmp/$component.zip  &>>${log_file}
 
 echo -e "${color} dependencies ${nocolor}"
-cd /app 
+cd ${app_path} 
 npm install &>>${log_file}
 
 echo -e "${color} copy service file ${nocolor}"

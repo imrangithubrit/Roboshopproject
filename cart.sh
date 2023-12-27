@@ -21,7 +21,7 @@ curl -L -o /tmp/$component.zip https://roboshop-artifacts.s3.amazonaws.com/$comp
 cd ${app_path} 
 
 echo -e "${color} unzip the folder ${nocolor}"
-unzip /tmp/$component.zip  &>>${log_file}
+unzip /tmp/${component}.zip  &>>${log_file}
 
 echo -e "${color} dependencies ${nocolor}"
 cd ${app_path} 

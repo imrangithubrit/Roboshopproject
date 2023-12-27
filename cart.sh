@@ -2,9 +2,6 @@ source common.sh
 component=cart
 
 
-
-
-
 echo -e "${color} Disable nodejs ${nocolor}"  
 yum module disable nodejs -y  &>>${log_file}
 echo -e "${color} nable nodejs ${nocolor}"

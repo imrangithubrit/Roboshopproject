@@ -1,13 +1,11 @@
+source common.sh
 component=catalogue
-color="\e[36m"
-nocolor="\e[0m"
-log_file="/tmp/roboshop.log"
-app_path="/app"
+
 
 
 echo -e "${color}  configuration node js ${nocolor}"
 curl -sL https://rpm.nodesource.com/setup_lts.x | bash  &>>log_file
-
+ 
 echo -e "${color}  install nodejs ${nocolor}"
 yum install nodejs -y   &>>log_file
 

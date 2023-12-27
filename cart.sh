@@ -1,34 +1,42 @@
+component=cart
+color="\e[35m"
+nocolor="\e[0m"
+log_file="/tmp/roboshop.log"
+app_path="/app"
 
-echo -e "\e[33m Disable nodejs \e[0m"  
-yum module disable nodejs -y  &>>/tmp/roboshop.log
-echo -e "\e[33m nable nodejs \e[0m"
-yum module enable nodejs:18 -y  &>>/tmp/roboshop.log
 
-echo -e "\e[33m install nodejs \e[0m"
-yum install nodejs -y &>>/tmp/roboshop.log
 
-echo -e "\e[33m add user \e[0m"
-useradd roboshop &>>/tmp/roboshop.log
 
-echo -e "\e[33m create directory \e[0m"
-mkdir /app  &>>/tmp/roboshop.log
+echo -e "${color} Disable nodejs ${nocolor}"  
+yum module disable nodejs -y  &>>${log_file}
+echo -e "${color} nable nodejs ${nocolor}"
+yum module enable nodejs:18 -y  &>>${log_file}
 
-echo -e "\e[33m Download application content \e[0m"
-curl -L -o /tmp/cart.zip https://roboshop-artifacts.s3.amazonaws.com/cart.zip &>>/tmp/roboshop.log 
+echo -e "${color} install nodejs ${nocolor}"
+yum install nodejs -y &>>${log_file}
+
+echo -e "${color} add user ${nocolor}"
+useradd roboshop &>>${log_file}
+
+echo -e "${color} create directory ${nocolor}"
+mkdir /app  &>>${log_file}
+
+echo -e "${color} Download application content ${nocolor}"
+curl -L -o /tmp/$component.zip https://roboshop-artifacts.s3.amazonaws.com/$component.zip &>>${log_file} 
 cd /app 
 
-echo -e "\e[33m unzip the folder \e[0m"
-unzip /tmp/cart.zip  &>>/tmp/roboshop.log
+echo -e "${color} unzip the folder ${nocolor}"
+unzip /tmp/$component.zip  &>>${log_file}
 
-echo -e "\e[33m dependencies \e[0m"
+echo -e "${color} dependencies ${nocolor}"
 cd /app 
-npm install &>>/tmp/roboshop.log
+npm install &>>${log_file}
 
-echo -e "\e[33m copy service file \e[0m"
-cp /Project/Roboshopproject/cart.service /etc/systemd/system/cart.service  &>>/tmp/roboshop.log
+echo -e "${color} copy service file ${nocolor}"
+cp /Project/Roboshopproject/$component.service /etc/systemd/system/$component.service  &>>${log_file}
 
-echo -e "\e[33m start cart \e[0m"
-systemctl daemon-reload  &>>/tmp/roboshop.log
+echo -e "${color} start $component ${nocolor}"
+systemctl daemon-reload  &>>${log_file}
  
-systemctl enable cart &>>/tmp/roboshop.log
-systemctl restart cart &>>/tmp/roboshop.log
+systemctl enable $component &>>${log_file}
+systemctl restart $component &>>${log_file}

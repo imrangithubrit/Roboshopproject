@@ -1,47 +1,48 @@
 component=catalogue
 color="\e[36m"
 nocolor="\e[0m"
+log_file="/tmp/roboshop.log"
 
 
 echo -e "${color}  configuration node js ${nocolor}"
-curl -sL https://rpm.nodesource.com/setup_lts.x | bash  &>>/tmp/roboshop.log
+curl -sL https://rpm.nodesource.com/setup_lts.x | bash  &>>log_file
 
 echo -e "${color}  install nodejs ${nocolor}"
-yum install nodejs -y   &>>/tmp/roboshop.log
+yum install nodejs -y   &>>log_file
 
 echo -e "${color} add Application user ${nocolor}"
-useradd roboshop   &>>/tmp/roboshop.log
+useradd roboshop   &>>log_file
 
 rm -rf /app
 mkdir /app 
 
 echo -e "${color} Download application director ${nocolor}"
 
-curl -o /tmp/$component.zip https://roboshop-artifacts.s3.amazonaws.com/$component.zip  &>>/tmp/roboshop.log
+curl -o /tmp/$component.zip https://roboshop-artifacts.s3.amazonaws.com/$component.zip  &>>log_file
 
 echo -e "${color} Extract application content ${nocolor}"
-cd /app   &>>/tmp/roboshop.log
-unzip /tmp/$component.zip  &>>/tmp/roboshop.log
+cd /app   &>>log_file
+unzip /tmp/$component.zip  &>>log_file
 cd /app 
 
 echo -e "${color} Install nodejs sependencies ${nocolor}"
-npm install &>>/tmp/roboshop.log
+npm install &>>log_file
 
 echo -e "${color} setup $component service ${nocolor}"
 # cp service
-cp /project/Roboshopproject/$component.service /etc/systemd/system/$component.service  &>>/tmp/roboshop.log
+cp /project/Roboshopproject/$component.service /etc/systemd/system/$component.service  &>>log_file
 
 echo -e "${color}  start $component service ${nocolor}"
-systemctl daemon-reload  &>>/tmp/roboshop.log
+systemctl daemon-reload  &>>log_file
 
-systemctl enable $component &>>/tmp/roboshop.log
-systemctl restart $component  &>>/tmp/roboshop.log
+systemctl enable $component &>>log_file
+systemctl restart $component  &>>log_file
 
 echo -e "${color} copy mongodb repo file ${nocolor}"
 #copy mpng.rep
-cp /project/Roboshopproject/mongo.repo /etc/yum.repos.d/mongo.repo  &>>/tmp/roboshop.log
+cp /project/Roboshopproject/mongo.repo /etc/yum.repos.d/mongo.repo  &>>log_file
 
 echo -e "${color} install mongodb ${nocolor}"
-yum install mongodb-org-shell -y   &>>/tmp/roboshop.log
+yum install mongodb-org-shell -y   &>>log_file
 
-mongo --host mongodb-dev.devopsb72.store </app/schema/$component.js  &>>/tmp/roboshop.log
+mongo --host mongodb-dev.devopsb72.store </app/schema/$component.js  &>>log_file
